@@ -6,7 +6,10 @@ Rails.application.routes.draw do
   get    '/login',  to: 'sessions#new'
   post   '/login',  to: 'sessions#create'
   delete '/logout', to: 'sessions#destroy'
+  get '/edit-basic-info/:id', to: 'users#edit_basic_info', as: :basic_info
+  patch 'update-basic-info', to: 'users#update_basic_info'
   
-  get "/users/:per" => "users#user_list_page", as: :user_list_page
   resources :users
+  get "/index/:per" => "users#index_user_list", as: :user_list
+  
 end

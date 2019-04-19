@@ -10,4 +10,6 @@ class User < ApplicationRecord
                     
   has_secure_password
   validates :password, presence: true, length: { minimum: 6 }, allow_nil: true
+  
+  validates :department, length: { in: 3..50 }, allow_blank: true
 end
