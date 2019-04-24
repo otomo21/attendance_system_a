@@ -1,0 +1,22 @@
+ja:
+  will_paginate:
+    previous_label: "前"
+    next_label: "次"
+    page_gap: "…"
+    
+  activerecord:
+    attributes:
+      user:
+        name: 名前
+        email: メールアドレス
+        department: 部署
+        password: パスワード
+        password_confirmation: パスワード確認
+        basic_time: 指定勤務時間
+        work_time: 基本勤務時間
+        
+  sessions:
+    new:
+      email: メールアドレス
+      password: パスワード
+        
