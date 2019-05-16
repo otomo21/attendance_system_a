@@ -1,5 +1,5 @@
 class AttendancesController < ApplicationController
-  before_action :correct_user
+  before_action :admin_corrent_user
   
   def create
     @user = User.find(params[:user_id])
@@ -44,9 +44,11 @@ class AttendancesController < ApplicationController
     end
     
     # beforeアクション
-    # 正しいユーザーかどうか確認
-    def correct_user
+    # 管理者または正しいユーザーかどうか
+    def admin_corrent_user
       @user = User.find(params[:id])
-      redirect_to(root_url) unless current_user?(@user)
+      if !current_user?(@user) && !current_user.admin?
+        redirect_to(root_url) 
+      end
     end
 end
