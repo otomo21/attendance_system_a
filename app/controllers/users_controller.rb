@@ -1,7 +1,7 @@
 class UsersController < ApplicationController
   before_action :logged_in_user, only: [:index, :edit, :update]
-  before_action :correct_user,   only: [:edit, :update]
-  before_action :admin_user,     only: [:destroy, :edit_basic_info, :update_basic_info]
+  before_action :correct_user,   only: [:edit, :update, :show]
+  before_action :admin_user,     only: [:index, :destroy, :edit_basic_info, :update_basic_info]
   
   def new
     @user = User.new
@@ -53,8 +53,13 @@ class UsersController < ApplicationController
   end
   
   def index
-    @page = 5
-    @users = User.paginate(page: params[:page], per_page: @page)
+    @title = "ユーザー一覧"
+    unless params[:search].nil?
+      @title = params[:search].empty? ? "ユーザー一覧" : "検索結果"
+    end
+    
+    @page = 15
+    @users = User.paginate(page: params[:page], per_page: @page).search(params[:search])
   end
   
   def index_user_list

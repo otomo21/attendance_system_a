@@ -48,6 +48,11 @@ module SessionsHelper
     !current_user.nil?
   end
   
+  # ログインユーザーが管理者ならtrue、その他ならfalseを返す
+  def user_admin?
+    current_user.admin?
+  end
+  
   # 現在のユーザーをログアウトする
   def log_out
     forget(current_user)

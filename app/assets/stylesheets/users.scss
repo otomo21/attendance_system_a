@@ -1,3 +1,30 @@
-// Place all the styles related to the Users controller here.
-// They will automatically be included in application.css.
-// You can use Sass (SCSS) here: http://sass-lang.com/
+/* Search */
+.search_title {
+  font-weight: bolder;
+  margin: 0 0 0 auto;
+}
+#form_search {
+  position:relative;/*フォームの相対位置*/
+  margin: 0 0 0 auto;
+  max-width:270px;/*フォームのサイズ*/
+}
+
+/*検索ボックス*/
+.search_box {
+  position:relative;/*フォームの絶対位置*/	
+  outline:0;/*クリック時の青い枠線消す*/
+  height:30px;/*検索ボックスの高さ*/	
+  padding:0 10px;/*テキスト位置調整*/	 
+  border-radius:2px 0 0 2px;/*検索ボックスの角を丸める*/		
+}
+
+/*検索ボタン*/
+.search_btn {
+  width:50px;/*検索ボタンの横幅*/ 
+  height:30px;/*検索ボタンの縦幅*/ 
+  position:absolute;/*検索ボタンの絶対位置*/  
+  left:270px;/*検索ボタンの位置調整*/  
+  top:26px;
+  border-radius:0 2px 2px 0;/*検索ボタンの角を丸める*/ 
+  border:none;/*検索ボタンの枠線を消す*/ 
+}

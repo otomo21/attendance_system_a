@@ -1,15 +1,25 @@
 <% provide(:title, 'ユーザー一覧') %>
-<h1>ユーザ一覧</h1>
 
-<%#=
-  <%= will_paginate %>
+<h1><%= @title%></h1>
 
-<ul class="users">
-  <%= render @users %>
-</ul>
+<%= form_tag(users_path, :method => 'get', id:"form_search") do %>
+  <p class="search_title"><%= "ユーザー名検索" %></p>
+  <%= text_field_tag :search, "", {class: "search_box", placeholder: "キーワードを入力..."} %>
+  <%= submit_tag '検索', :name => nil, :class => "btn btn-primary search_btn" %>
+<% end %>
+
+<%= will_paginate %>
+
+<div>
+  <ul class="users">
+    <%= render @users %>
+  </ul>
+</div>
 
 <div>
   <div style="display:inline-block"><%= will_paginate %></div>
+  <% if false %>
+  以下、コメントとする
   <div class="dropdown" style="display:inline-block">
   　<button class="btn btn-info dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
   　　<%= @page %>
@@ -23,4 +33,5 @@
   　</ul>
   　<label>件ずつ表示する</label>
   </div>
+  <% end %>
 </div>
