@@ -26,6 +26,12 @@ class AttendancesController < ApplicationController
   def update
     @user = User.find(params[:id])
     if attendances_invalid?
+      unless check_day?
+        flash[:danger] = "本日以降の勤怠情報は変更できません。"
+        redirect_to edit_attendances_path(@user, params[:date])
+        return
+      end
+      
       attendances_params.each do |id, item|
         attendance = Attendance.find(id)
         attendance.update_attributes(item)

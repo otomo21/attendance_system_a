@@ -56,6 +56,7 @@ module AttendancesHelper
     @user.attendances.where('worked_on >= ? and worked_on <= ?', @first_day, @last_day).order('worked_on')
   end
   
+  # 時間の整合性チェック
   def attendances_invalid?
     attendances = true
     attendances_params.each do |id, item|
@@ -71,4 +72,20 @@ module AttendancesHelper
     end
     return attendances
   end
+  
+  # システム日付以降の勤怠編集不可
+  def check_day?
+    result = true
+    attendances_params.each do |id, item|
+      attendance = Attendance.find(id)
+      
+      if item[:started_at].present? && Date.today < attendance.worked_on
+        result = false
+        break
+      end
+    end
+    
+    return result
+  end
+  
 end

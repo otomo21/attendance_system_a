@@ -4,9 +4,7 @@ class Attendance < ApplicationRecord
   validates :worked_on, presence: true
   validate :started_at_none
   validate :attendance_comparison
-  validate :check_day
-  
-  
+
   private
     # 退勤時間は出勤時間がある場合のみ登録可
     def started_at_none
@@ -22,10 +20,4 @@ class Attendance < ApplicationRecord
       end
     end
     
-    # システム日付以降の勤怠編集は不可
-    def check_day
-      if Date.today < worked_on
-        errors.add(:worked_on, "本日以降の勤怠編集はできません。")
-      end
-    end
 end
