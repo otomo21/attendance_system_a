@@ -17,7 +17,7 @@ class Attendance < ApplicationRecord
     
     # 退勤時間は出勤時間より前は登録不可
     def attendance_comparison
-      if finished_at.present? && started_at >= finished_at
+      if finished_at.present? && started_at > finished_at
         errors.add(:finished_at, "退勤時刻は出勤時刻より早い時間は設定できません。")
       end
     end
