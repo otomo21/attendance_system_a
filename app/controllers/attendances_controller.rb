@@ -1,5 +1,5 @@
 class AttendancesController < ApplicationController
-  before_action :admin_corrent_user
+  before_action :admin_corrent_user, only: [:edit]
   
   def create
     @user = User.find(params[:user_id])
