@@ -53,6 +53,11 @@ module SessionsHelper
     current_user.admin?
   end
   
+  # ログインユーザーが上長ならtrue、その他ならfalseを返す
+  def user_superior?
+    current_user.superior?
+  end
+  
   # 現在のユーザーをログアウトする
   def log_out
     forget(current_user)

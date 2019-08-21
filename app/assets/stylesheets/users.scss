@@ -28,3 +28,12 @@
   border-radius:0 2px 2px 0;/*検索ボタンの角を丸める*/ 
   border:none;/*検索ボタンの枠線を消す*/ 
 }
+
+/*リストの点を消す*/
+.delete-marker-fix {
+    list-style: none;
+    padding-left: 0;
+}
+.delete-marker-fix li {
+    margin-left: 0;
+}
