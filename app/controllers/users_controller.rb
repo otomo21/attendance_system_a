@@ -53,6 +53,17 @@ class UsersController < ApplicationController
     end
   end
   
+  def user_update
+    @user = User.find(params[:id])
+    if @user.update_attributes(edit_user_params)
+      flash[:success] = "#{@user.name}さんのユーザー情報を更新しました。"
+      redirect_to action: 'index'
+    else
+      flash[:danger] = "#{@user.name}さんの更新に失敗しました。"
+      redirect_to action: 'index'
+    end
+  end
+  
   def index
     @title = "ユーザー一覧"
     unless params[:search].nil?
@@ -61,6 +72,7 @@ class UsersController < ApplicationController
     
     @page = 15
     @users = User.paginate(page: params[:page], per_page: @page).search(params[:search])
+    @user = User.new
   end
   
   def index_user_list
@@ -89,6 +101,16 @@ class UsersController < ApplicationController
     end
   end
   
+  def import
+    # fileはtmpに自動で一時保存される
+    if User.import(params[:file])
+      flash[:success] = "CSVを取り込みました。"
+    else
+      flash[:danger] = "CSVの取り込みに失敗しました。。"
+    end
+    redirect_to users_url
+  end
+  
   private
 
     def user_params
@@ -97,6 +119,10 @@ class UsersController < ApplicationController
     
     def basic_info_params
       params.require(:user).permit(:basic_time, :work_time)
+    end
+    
+    def edit_user_params
+      params.require(:user).permit(:name, :email, :department, :employee_number, :uid, :password, :work_time, :designated_work_start_time, :designated_work_end_time)
     end
     
     # beforeアクション

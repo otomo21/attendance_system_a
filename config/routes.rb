@@ -10,10 +10,18 @@ Rails.application.routes.draw do
   patch 'update-basic-info', to: 'users#update_basic_info'
   get 'users/:id/attendances/:date/edit', to: 'attendances#edit', as: :edit_attendances
   patch 'users/:id/attendances/:date/update', to: 'attendances#update', as: :update_attendances
+  patch 'users', to: 'users#user_update'
   
   resources :users do
+    member do
+      # ユーザ情報の編集（indexページ）
+      patch 'user_update'
+    end
+    
     resources :attendances, only: :create
+    collection { post :import }
   end
   get "/index/:per" => "users#index_user_list", as: :user_list
+  
   
 end

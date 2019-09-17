@@ -37,3 +37,49 @@
 .delete-marker-fix li {
     margin-left: 0;
 }
+
+/*インポートボタン*/
+#form_import {
+  position:relative;/*フォームの相対位置*/
+  max-width:270px;/*フォームのサイズ*/
+  
+  /*インポートボタン*/
+  .import_btn {
+    width:300px;/*インポートボタンの横幅*/ 
+    height:30px;/*インポートボタンの縦幅*/ 
+    border-radius:0 2px 2px 0;/*インポートボタンの角を丸める*/ 
+    border:none;/*インポートボタンの枠線を消す*/ 
+    padding: 10 10 10 10;
+  }
+  
+  .clear_btn {
+    position:relative;
+    width:150px;
+    top:50;
+    left:50;
+  }
+}
+
+.btn-file {
+  position: relative;
+  overflow: hidden;
+}
+.btn-file input[type=file] {
+  position: absolute;
+  top: 0;
+  right: 0;
+  min-width: 100%;
+  min-height: 100%;
+  font-size: 100px;
+  text-align: right;
+  filter: alpha(opacity=0);
+  opacity: 0;
+  background: red;
+  cursor: inherit;
+  display: block;
+}
+
+.btn-file input[readonly] {
+  /*background-color: white !important;
+  cursor: text !important;*/
+}
