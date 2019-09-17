@@ -11,6 +11,7 @@ class BasesController < ApplicationController
     @base = Base.new(base_params)
     
     if @base.save
+      flash[:success] = "拠点情報を登録しました。"
       redirect_to action: 'index'
     else
       render "new"

@@ -19,6 +19,11 @@ ja:
         designated_work_start_time: 指定勤務開始時間
         designated_work_end_time: 指定勤務終了時間
         
+      base:
+        base_number: 拠点番号
+        name: 拠点名
+        attendance_type: 勤怠種類
+        
   sessions:
     new:
       email: メールアドレス
