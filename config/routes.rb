@@ -23,4 +23,5 @@ Rails.application.routes.draw do
   get "/index/:per" => "users#index_user_list", as: :user_list
   get "/work_now", to: 'users#work_now'
   
+  resources :bases
 end
