@@ -112,6 +112,10 @@ class UsersController < ApplicationController
     redirect_to users_url
   end
   
+  def work_now
+    @work_now = User.all.includes(:attendances).where(attendances: {worked_on:Date.today}).order('employee_number')
+  end
+  
   private
 
     def user_params
