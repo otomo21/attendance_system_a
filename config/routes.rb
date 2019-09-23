@@ -18,6 +18,7 @@ Rails.application.routes.draw do
     end
     
     resources :attendances, only: :create
+    resources :attendance_logs
     collection { post :import }
   end
   get "/index/:per" => "users#index_user_list", as: :user_list
