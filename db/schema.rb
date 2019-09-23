@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190922143900) do
+ActiveRecord::Schema.define(version: 20190923130025) do
 
   create_table "attendance_logs", force: :cascade do |t|
     t.date "worked_on"
@@ -21,6 +21,19 @@ ActiveRecord::Schema.define(version: 20190922143900) do
     t.integer "attendance_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "rireki_num", default: 1, null: false
+    t.integer "superior_id"
+    t.string "superior_chk_kbn"
+    t.string "process_kbn"
+    t.date "approval_at"
+    t.boolean "update_kbn"
+    t.datetime "before_started_at"
+    t.datetime "before_finished_at"
+    t.datetime "after_started_at"
+    t.datetime "after_finished_at"
+    t.datetime "end_estimated_time"
+    t.boolean "next_day_flag"
+    t.string "job_content"
     t.index ["attendance_id"], name: "index_attendance_logs_on_attendance_id"
     t.index ["user_id"], name: "index_attendance_logs_on_user_id"
   end
@@ -33,6 +46,19 @@ ActiveRecord::Schema.define(version: 20190922143900) do
     t.integer "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "rireki_num", default: 1, null: false
+    t.integer "superior_id"
+    t.string "superior_chk_kbn"
+    t.string "process_kbn"
+    t.date "approval_at"
+    t.boolean "update_kbn"
+    t.datetime "before_started_at"
+    t.datetime "before_finished_at"
+    t.datetime "after_started_at"
+    t.datetime "after_finished_at"
+    t.datetime "end_estimated_time"
+    t.boolean "next_day_flag"
+    t.string "job_content"
     t.index ["user_id"], name: "index_attendances_on_user_id"
   end
 
