@@ -1,0 +1,70 @@
+<% if @approval_application_count == 0 %>
+  <li>【所属長承認申請のお知らせ】</li>
+<% else %>
+  <li data-toggle="modal" data-target="#model_application" class="mouse_cursol" style="color:red;">
+    【所属長承認申請のお知らせ】<%= @approval_application_count%>件の申請があります！
+  </li>
+
+  <!-- Modal -->
+  <div class="modal fade" id="model_application" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        
+        <%= form_with url: approval_application_attendances_path, local: true, method: :patch do |f| %>
+          <div class="modal-body">
+            <% user = 0 %>
+            <% @approval_application.each do |application| %>
+              <%= fields_for "attendance_news[]", application do |af| %>
+                <table class="table-bordered table-striped table-condensed">
+                  <% if user != application.user.id %>
+                    <thead>
+                      <h2><%= "【#{application.user.name}からの１ヶ月分の勤怠申請】" %></h2>
+                      <tr>
+                        <th>月</th>
+                        <th>指示者確認㊞</th>
+                        <th>変更</th>
+                        <th>勤怠を確認する</th>
+                      </tr>
+                    </thead>
+                  <% end %>
+                  <tbody>
+                    <tr>
+                      <td class="td_month">
+                        <%= application.worked_on.to_s(:month) %></td>
+                      <td class="td_select">
+                        <%= af.select :superior_chk_kbn, [['なし', 0], ['申請中', 1], ['承認', 2], ['否認', 3]],
+                                                         { selected: application.superior_chk_kbn }, class: 'form-control' %>
+                      </td>
+                      <td class="td_check">
+                          <%= af.check_box :upd_flg, id: :checkbox,:as => :boolean ,class: 'form-check-input'%>
+                        </td>
+                      <td>
+                        <%= link_to "確認", user_confirmation_path(application.superior_id, application.user.id, application.worked_on),
+                            class: "btn btn-primary" %>
+                      </td>
+                    </tr>
+                  </tbody>
+                  <% user = application.user.id %>
+                </table>
+              <% end %>
+            <% end %>
+          </div>
+          
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">閉じる</button>
+            <%= f.submit '更新', class: 'btn btn-primary' , style: "width:auto;"%>
+          </div>
+          
+        <% end %>
+      </div>
+    </div>
+  </div>
+<% end %>
+
+

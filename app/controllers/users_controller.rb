@@ -18,6 +18,7 @@ class UsersController < ApplicationController
   
     @last_day = @first_day.end_of_month
     
+    # 月のデータがなければ作成する
     (@first_day..@last_day).each do |day|
       unless @user.attendances.any? {|attendance| attendance.worked_on == day}
         record = @user.attendances.build(worked_on: day)
@@ -25,6 +26,48 @@ class UsersController < ApplicationController
       end
     end
     
+    @dates = user_attendances_month_date
+    @worked_sum = @dates.where.not(started_at: nil).count
+    
+    #月初の承認情報を取得
+    @approval_inf = Attendance.find_by(user_id: params[:id], worked_on: @first_day)
+    
+    unless @approval_inf.superior_chk_kbn == "0"
+      @approval_superior = User.find_by(id: @approval_inf.superior_id)
+    end
+    
+    # 上長抽出
+    @superior = User.where(superior: true)
+    
+    # 承認申請を抽出
+    @approval_application_count = AttendanceNews.where(superior_id: params[:id], superior_chk_kbn: '1', process_kbn: '1', del_flg: false).count
+    @approval_upd_count = AttendanceNews.where(superior_id: params[:id], superior_chk_kbn: '1', process_kbn: '2', del_flg: false).count
+    #@test = User.all.includes(:attendance_news).where(attendance_news: {superior_id: params[:id], superior_chk_kbn: '1'}).order('employee_number')
+    
+    query = "select  users.*,
+                     attendances.*,
+                     attendance_news.*
+             from    users,
+                     attendances,
+                     attendance_news
+             where   users.id = attendance_news.user_id
+             and     users.id = attendances.user_id
+             and     attendances.id = attendance_news.attendance_id
+             and     attendance_news.del_flg = ?
+             and     attendance_news.process_kbn = ?
+             and     attendance_news.superior_id = ?
+             and     attendance_news.superior_chk_kbn = ?
+             order by users.employee_number,
+                      users.id,
+                      attendance_news.worked_on"
+    @approval_application = AttendanceNews.find_by_sql([query, false, "1", params[:id], "1"])
+    @approval_upd = AttendanceNews.find_by_sql([query, false, "2",params[:id], "1"])
+  end
+  
+  def show_confirmation
+    @user = User.find(params[:application_id])
+    @first_day = Date.parse(params[:date])
+    @last_day = @first_day.end_of_month
     @dates = user_attendances_month_date
     @worked_sum = @dates.where.not(started_at: nil).count
   end

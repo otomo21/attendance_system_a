@@ -97,15 +97,21 @@ table {
 
 th {
   vertical-align: bottom;
-  text-align: center;  
+  text-align: center;
 }
 
 /* form */
 
-input, textarea, select, .uneditable-input {
+input, textarea, .uneditable-input {
   border: 1px solid #bbb;
   width: 100%;
   margin-bottom: 15px;
+  @include box_sizing;
+}
+
+select {
+  border: 1px solid #bbb;
+  width: 100%;
   @include box_sizing;
 }
 

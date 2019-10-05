@@ -1,11 +1,11 @@
 module AttendancesHelper
   def current_time
     Time.new(
-      Time.now.year,
-      Time.now.month,
-      Time.now.day,
-      Time.now.hour,
-      Time.now.min, 0
+      Time.zone.now.year,
+      Time.zone.now.month,
+      Time.zone.now.day,
+      Time.zone.now.hour,
+      Time.zone.now.min, 0
     )
   end
   
@@ -31,7 +31,11 @@ module AttendancesHelper
     
     finished_at_min = format_min(day.finished_at.to_s(:min))
     
-    workingtime = format("%.2f", (((day.finished_at - day.started_at) / 60) / 60.0))
+    if day.next_day_flag
+      workingtime = format("%.2f", ((((day.finished_at + 86400) - day.started_at) / 60) / 60.0))
+    else
+      workingtime = format("%.2f", (((day.finished_at - day.started_at) / 60) / 60.0))
+    end
     
     if mode == "finished_at_min"
       return finished_at_min
@@ -64,6 +68,8 @@ module AttendancesHelper
         next
       elsif item[:started_at].blank? || item[:finished_at].blank?
         attendances = false
+        break
+      elsif item[:next_day_flag] == "1"
         break
       elsif item[:started_at] > item[:finished_at]
         attendances = false

@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  worked_on: 2019-09-24
+  superior_id: 1
+  superior_chk_kbn: MyString
+  process_kbn: MyString
+  approval_at: 2019-09-24
+
+two:
+  worked_on: 2019-09-24
+  superior_id: 1
+  superior_chk_kbn: MyString
+  process_kbn: MyString
+  approval_at: 2019-09-24

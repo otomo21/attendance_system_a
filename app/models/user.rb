@@ -1,6 +1,7 @@
 class User < ApplicationRecord
   has_many :attendances, dependent: :destroy
   has_many :attendance_logs, dependent: :destroy
+  has_many :attendance_news, dependent: :destroy
   
   attr_accessor :remember_token
   

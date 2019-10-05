@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190923130025) do
+ActiveRecord::Schema.define(version: 20191004092441) do
 
   create_table "attendance_logs", force: :cascade do |t|
     t.date "worked_on"
@@ -38,6 +38,22 @@ ActiveRecord::Schema.define(version: 20190923130025) do
     t.index ["user_id"], name: "index_attendance_logs_on_user_id"
   end
 
+  create_table "attendance_news", force: :cascade do |t|
+    t.date "worked_on"
+    t.integer "superior_id"
+    t.string "superior_chk_kbn"
+    t.string "process_kbn"
+    t.date "approval_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "user_id"
+    t.boolean "upd_flg", default: false
+    t.boolean "del_flg", default: false
+    t.integer "attendance_id"
+    t.index ["attendance_id"], name: "index_attendance_news_on_attendance_id"
+    t.index ["user_id"], name: "index_attendance_news_on_user_id"
+  end
+
   create_table "attendances", force: :cascade do |t|
     t.date "worked_on"
     t.datetime "started_at"
@@ -48,10 +64,10 @@ ActiveRecord::Schema.define(version: 20190923130025) do
     t.datetime "updated_at", null: false
     t.integer "rireki_num", default: 1, null: false
     t.integer "superior_id"
-    t.string "superior_chk_kbn"
+    t.string "superior_chk_kbn", default: "0"
     t.string "process_kbn"
     t.date "approval_at"
-    t.boolean "update_kbn"
+    t.boolean "update_kbn", default: false
     t.datetime "before_started_at"
     t.datetime "before_finished_at"
     t.datetime "after_started_at"

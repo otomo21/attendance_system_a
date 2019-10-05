@@ -10,6 +10,10 @@ Rails.application.routes.draw do
   patch 'update-basic-info', to: 'users#update_basic_info'
   get 'users/:id/attendances/:date/edit', to: 'attendances#edit', as: :edit_attendances
   patch 'users/:id/attendances/:date/update', to: 'attendances#update', as: :update_attendances
+  patch 'users/:id/:date/month_application', to: 'attendances#month_application', as: :month_application_attendances
+  patch 'users/:id/approval_application', to: 'attendances#approval_application', as: :approval_application_attendances
+  patch 'users/:id/approval_upd', to: 'attendances#approval_upd', as: :approval_upd_attendances
+  get 'users/:id/confirmation/:application_id/:date', to: 'users#show_confirmation', as: :user_confirmation
   
   resources :users do
     member do

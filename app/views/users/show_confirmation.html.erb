@@ -1,13 +1,9 @@
-<% provide(:title, '勤怠表示') %>
+<% provide(:title, '勤怠表示確認') %>
 <div>
   <table class = "table-bordered table-condensed">
     <tr>
       <td>
-        <%= link_to "←", user_path(params: {id: @user.id, first_day: @first_day.prev_month }),
-                         class: "btn btn-xs btn-primary" %>
-        &emsp;<%= @first_day.to_s(:year_month) %>　時間管理表&emsp;
-        <%= link_to "→", user_path(params: {id: @user.id, first_day: @first_day.next_month }),
-                         class: "btn btn-xs btn-primary" %>
+        <%= @first_day.to_s(:year_month) %>　時間管理
       </td>
       <td>
         <ui class="delete-marker-fix">
@@ -27,27 +23,13 @@
       <td>締日　<%= @last_day.to_s(:date) %></td>
     </tr>
   </table>
-  
-  <% if user_superior? %>
-    <ui class="delete-marker-fix">
-      <%= render 'attendances/approval_application', collection: @approval_application %>
-      <%= render 'attendances/approval_upd', collection: @approval_upd %>
-      <li>【残業申請のお知らせ】</li>
-    </ui>
-  <% end %>
-  
-  <%= link_to "勤怠を編集", edit_attendances_path(@user, @first_day), class: "btn btn-primary" %>
-  <%= link_to "CSVを出力", edit_attendances_path(@user, @first_day), class: "btn btn-primary" %>
-  <br>
-    <%= link_to "勤怠修正ログ（承認済）", user_attendance_log_path(@user), class: "btn btn-primary" %>
-  </br>
 
   <table class = "table-bordered table-striped table-condensed">
     <thead>
       <tr> <!--rowspan:縦結合、colspan：横結合-->
-        <th rowspan = "3" class="table_width">残業申請</th>
-        <th rowspan = "3" class="table_day">日付</th>
-        <th rowspan = "3" class="table_day">曜日</th>
+        <th rowspan = "3">残業申請</th>
+        <th rowspan = "3">日付</th>
+        <th rowspan = "3">曜日</th>
         <th colspan = "8">【実績】</th>
         <th colspan = "5">所定外勤務</th>
       </tr>
@@ -75,7 +57,7 @@
     <tbody>
       <% @dates.each do |day| %>
         <tr>
-          <td><%= link_to "残業申請", edit_attendances_path(@user, @first_day), class: "btn btn-primary" %></td>
+          <td></td>
           <td><%= day.worked_on.to_s(:date) %></td>
           <% day_week = day.worked_on.wday %>
           <td class = "<%= day_color(day_week)%>">
@@ -107,7 +89,7 @@
           <td></td>
           <td></td>
           <td></td>
-          <td><%= superior_chk(day) %></td>
+          <td><%= superior_chk(day.superior_chk_kbn) %></td>
         </tr>
       <% end %>
     </tbody>
@@ -120,30 +102,11 @@
         <td colspan = "5"></td>
         <td>
           <ui class="delete-marker-fix">
-            <% fixed_text = "所属長承認" %>
-              <% case @approval_inf.superior_chk_kbn %>
-                <% when "0" then %>
-                  <li><%= fixed_text %>　未</li>
-                <% when "1" then %>
-                  <li><%= fixed_text %></li>
-                  <li><%=@approval_superior.name%>へ申請中</li>
-                <% when "2" then %>
-                  <li><%= fixed_text %></li>
-                  <li><%=@approval_superior.name%>から承認済み</li>
-                <% else %>
-                  <li><%= fixed_text %></li>
-                  <li><%=@approval_superior.name%>から否認済み</li>
-              <% end %>
-              
-            <li>
-              <%= form_with(url: month_application_attendances_path(@user, @first_day, :superior_id), method: :patch, local: true) do |f| %>
-                <%= f.collection_select :superior_id, @superior, :id, :name, {prompt: true}, class: 'form-control'%>
-                <%= f.submit "申請", class: "btn btn-primary" %>
-              <% end %>
-            </li>
+            <li>所属長承認</li>
           </ui>
         </td>
       </tr>
     </tfoot>
   </table>
 </div>
+<%= link_to '戻る', :back , class: "btn btn-primary"%> 

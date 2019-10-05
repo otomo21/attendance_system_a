@@ -1,6 +1,7 @@
 class Attendance < ApplicationRecord
   belongs_to :user
-  has_many :attendance_logs
+  has_many :attendance_log
+  has_many :attendance_news, dependent: :destroy
   
   validates :worked_on, presence: true
   validate :started_at_none
@@ -16,8 +17,10 @@ class Attendance < ApplicationRecord
     
     # 退勤時間は出勤時間より前は登録不可
     def attendance_comparison
-      if finished_at.present? && started_at > finished_at
-        errors.add(:finished_at, "退勤時刻は出勤時刻より早い時間は設定できません。")
+      unless next_day_flag
+        if finished_at.present? && started_at > finished_at
+          errors.add(:finished_at, "退勤時刻は出勤時刻より早い時間は設定できません。")
+        end
       end
     end
     
